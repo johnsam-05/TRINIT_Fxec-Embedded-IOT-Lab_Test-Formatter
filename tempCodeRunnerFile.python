@@ -1,0 +1,10 @@
+def testfun(str):
+    op = ""
+    for i in str:
+        if i not in ["*","'"]:
+            op+=i
+    return op
+
+text = "*Heading*\n'''head1'''\n'''head2'''\nhelloooooo"
+#print(text)
+print(testfun(text))
