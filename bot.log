@@ -1,0 +1,14 @@
+2024-03-09 11:29:13,680 - INFO - Bot Started
+2024-03-09 11:32:21,153 - WARNING - XRef object at 1531964 can not be read, some object may be missing
+2024-03-09 11:32:22,031 - INFO - PDF content extracted successfully.
+2024-03-09 11:37:04,391 - INFO - Bot Started
+2024-03-09 11:38:42,324 - INFO - PDF content extracted successfully.
+2024-03-09 11:39:39,753 - INFO - Bot Started
+2024-03-09 11:41:19,963 - INFO - PDF content extracted successfully.
+2024-03-09 11:42:40,778 - INFO - Bot Started
+2024-03-09 11:43:37,818 - INFO - PDF content extracted successfully.
+2024-03-09 11:47:33,743 - WARNING - XRef object at 1531964 can not be read, some object may be missing
+2024-03-09 11:47:34,576 - INFO - PDF content extracted successfully.
+2024-03-09 11:56:35,919 - INFO - Bot Started
+2024-03-09 11:57:38,531 - INFO - PDF content extracted successfully.
+2024-03-09 11:57:49,964 - ERROR - Error occurred while processing PDF: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message to delete not found
