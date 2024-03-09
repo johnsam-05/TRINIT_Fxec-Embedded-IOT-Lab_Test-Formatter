@@ -49,7 +49,7 @@ response = chat.send_message(prompt_parts)
 def process_pdf_and_generate_mock_test(file_id, chat_id):
     try:
         # Download the PDF file using Telegram's file_id
-        sent_message = bot.send_message(chat_id, "📥 PDF Received. Now processing...")
+        bot.send_message(chat_id, "📥 PDF Received. Now processing...")
         file_info = bot.get_file(file_id)
         file_url = f"https://api.telegram.org/file/bot{bot.token}/{file_info.file_path}"
         response = requests.get(file_url)
@@ -62,13 +62,8 @@ def process_pdf_and_generate_mock_test(file_id, chat_id):
                 pdftext += page.extract_text()
         
         logging.info("PDF content extracted successfully.")
-        
-        # Delete the previous message
-        bot.delete_message(chat_id, sent_message.message_id)
-        
         bot.send_message(chat_id, "✅ PDF processed successfully. Generating Mock Questions...")
-        bot.send_message(chat_id, chat.send_message(pdftext + "Process this text neatly and generate mock questions using this text. Also, make it as short as possible.").text)
-        bot.delete_message(chat_id, sent_message.message_id)
+        bot.send_message(chat_id, chat.send_message(pdftext + "Process this text neatly and generate mock questions using this text. Also, make it as short as possible and don't.").text)
         bot.send_message(chat_id, "🎉 Mock Questions generated successfully!")
     except Exception as e:
         logging.error(f"Error occurred while processing PDF: {str(e)}")
@@ -76,6 +71,7 @@ def process_pdf_and_generate_mock_test(file_id, chat_id):
 
 # Function to handle "/start" command
 def start(message):
+    bot.send_message(message.chat.id, "👋")
     op = f"Hello {message.from_user.first_name}! I'm Cognigenius Bot 🤖\n"\
          f"This bot is developed by @johnsam05 & @BenhurLee\n"\
          "I'm here to assist you in generating mock text questions based on the input PDF file. Simply upload the PDF containing the questions, and I'll take care of the rest!\n"\
