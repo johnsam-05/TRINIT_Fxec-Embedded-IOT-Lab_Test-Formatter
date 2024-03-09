@@ -40,10 +40,17 @@ model = genai.GenerativeModel(model_name="gemini-pro",
 prompt_parts = [
     "Your name is Cognigenius Bot, a Telegram bot developed by @johnsam05 and @BenhurLee.\n",
     "You are here to assist us in generating mock text questions based on the input PDF file(but you will get that pdf as a text).\n",
-    "Simply upload the PDF containing the questions, and I'll take care of the rest!"
+    "Simply upload the PDF containing the questions, and I'll take care of the rest!,you need to use uppercase insterd of *"
 ]
 
 response = chat.send_message(prompt_parts)
+
+def processtxt(str):
+    processedtxt = ""
+    for x in str:
+        if x != "*":
+            processedtxt+=x
+    return processedtxt
 
 # Function to process PDF files
 def process_pdf_and_generate_mock_test(file_id, chat_id):
@@ -63,40 +70,47 @@ def process_pdf_and_generate_mock_test(file_id, chat_id):
         
         logging.info("PDF content extracted successfully.")
         bot.send_message(chat_id, "✅ PDF processed successfully. Generating Mock Questions...")
-        bot.send_message(chat_id, chat.send_message(pdftext + "Process this text neatly and generate mock questions using this text. Also, make it as short as possible and don't.").text)
+        bot.send_message(chat_id, processtxt(chat.send_message(pdftext + "Process this text neatly and generate mock questions using this text. Also, make it as short as possible and don't.").text))
         bot.send_message(chat_id, "🎉 Mock Questions generated successfully!")
     except Exception as e:
         logging.error(f"Error occurred while processing PDF: {str(e)}")
         bot.send_message(chat_id, "❌ An error occurred while processing the PDF. Please try again later.")
 
 # Function to handle "/start" command
+@bot.message_handler(commands=['start'])
 def start(message):
     bot.send_message(message.chat.id, "👋")
-    op = f"Hello {message.from_user.first_name}! I'm Cognigenius Bot 🤖\n"\
-         f"This bot is developed by @johnsam05 & @BenhurLee\n"\
-         "I'm here to assist you in generating mock text questions based on the input PDF file. Simply upload the PDF containing the questions, and I'll take care of the rest!\n"\
-         "Feel free to ask any questions or use the available commands to get started.\n"\
-         "Enjoy your time with @cognigeniusbot!"
-    return op
+    op = f"Hello {message.from_user.first_name}! I'm Cognigenius Bot 🤖\nThis bot was crafted by @johnsam05 & @BenhurLee to assist you in crafting mock text questions. \n📚 How it works:\nSimply upload a PDF containing your questions, and I'll handle the rest! I'll extract the text and generate mock questions based on it.\nFeel free to ask any questions or use the following commands to get started:\n🤔 Need help? Just type /help\nEnjoy your time with @cognigeniusbot!"
+    bot.send_message(message.chat.id, op)
+
+
+# Function to handle "/help" command
+@bot.message_handler(commands=['help'])
+def help(message):
+    bot.send_message(message.chat.id, "ℹ️ Here are the available commands:\n"
+                                      "/start - Start the bot\n"
+                                      "/help - Display this help message")
+    
 
 # Function to handle other messages
+@bot.message_handler(func=lambda msg: True)
 def handle_message(message):
     # You may want to add error handling here
     pmt = chat.send_message(message.text)
-    return pmt.text
+    bot.send_message(message.chat.id,pmt.text)
 
 
 # Telegram message handler
-@bot.message_handler(func=lambda msg: True)
-def echo_all(message):
-    msg_text = message.text.lower()
-
-    if msg_text == "/start":
-        op = start(message)
-    else:
-        op = handle_message(message)
-
-    bot.send_message(message.chat.id, op)
+#@bot.message_handler(func=lambda msg: True)
+#def echo_all(message):
+#    msg_text = message.text.lower()
+#
+#    if msg_text == "/start":
+#        op = start(message)
+#    else:
+#        op = handle_message(message)
+#
+#    bot.send_message(message.chat.id, op)
 
 # Telegram document handler
 @bot.message_handler(content_types=['document'])
@@ -109,3 +123,4 @@ def handle_document(message):
 print("Bot Started")
 logging.info("Bot Started")
 bot.infinity_polling()
+
