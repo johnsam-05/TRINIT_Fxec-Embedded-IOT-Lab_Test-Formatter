@@ -1,0 +1,4 @@
+telebot
+google-api-python-client
+requests
+PyPDF2
