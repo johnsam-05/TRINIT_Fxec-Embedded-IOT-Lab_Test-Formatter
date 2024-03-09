@@ -48,33 +48,30 @@ response = chat.send_message(prompt_parts)
 def processtxt(str):
     processedtxt = ""
     for x in str:
-        if x != "*":
+        if x not in ["*","`","```"]:
             processedtxt+=x
     return processedtxt
 
 # Function to process PDF files
 def process_pdf_and_generate_mock_test(file_id, chat_id):
-    try:
-        # Download the PDF file using Telegram's file_id
-        bot.send_message(chat_id, "📥 PDF Received. Now processing...")
-        file_info = bot.get_file(file_id)
-        file_url = f"https://api.telegram.org/file/bot{bot.token}/{file_info.file_path}"
-        response = requests.get(file_url)
+    # Download the PDF file using Telegram's file_id
+    bot.send_message(chat_id, "📥 PDF Received. Now processing...")
+    file_info = bot.get_file(file_id)
+    file_url = f"https://api.telegram.org/file/bot{bot.token}/{file_info.file_path}"
+    response = requests.get(file_url)
         
         # Read PDF content
-        with BytesIO(response.content) as pdf_buffer:
-            pdf_reader = PdfReader(pdf_buffer)
-            pdftext = ""
-            for page in pdf_reader.pages:
-                pdftext += page.extract_text()
+    with BytesIO(response.content) as pdf_buffer:
+        pdf_reader = PdfReader(pdf_buffer)
+        pdftext = ""
+        for page in pdf_reader.pages:
+            pdftext += page.extract_text()
         
-        logging.info("PDF content extracted successfully.")
-        bot.send_message(chat_id, "✅ PDF processed successfully. Generating Mock Questions...")
-        bot.send_message(chat_id, processtxt(chat.send_message(pdftext + "Process this text neatly and generate mock questions using this text. Also, make it as short as possible and don't.").text))
-        bot.send_message(chat_id, "🎉 Mock Questions generated successfully!")
-    except Exception as e:
-        logging.error(f"Error occurred while processing PDF: {str(e)}")
-        bot.send_message(chat_id, "❌ An error occurred while processing the PDF. Please try again later.")
+    logging.info("PDF content extracted successfully.")
+    bot.send_message(chat_id, "✅ PDF processed successfully. Generating Mock Questions...")
+    bot.send_message(chat_id, processtxt(chat.send_message(pdftext + "Process this text neatly and generate mock questions using this text. Also, make it as short as possible and don't.").text))
+    bot.send_message(chat_id, "🎉 Mock Questions generated successfully!")
+    
 
 # Function to handle "/start" command
 @bot.message_handler(commands=['start'])
@@ -97,20 +94,7 @@ def help(message):
 def handle_message(message):
     # You may want to add error handling here
     pmt = chat.send_message(message.text)
-    bot.send_message(message.chat.id,pmt.text)
-
-
-# Telegram message handler
-#@bot.message_handler(func=lambda msg: True)
-#def echo_all(message):
-#    msg_text = message.text.lower()
-#
-#    if msg_text == "/start":
-#        op = start(message)
-#    else:
-#        op = handle_message(message)
-#
-#    bot.send_message(message.chat.id, op)
+    bot.send_message(message.chat.id,processtxt(pmt.text))
 
 # Telegram document handler
 @bot.message_handler(content_types=['document'])
