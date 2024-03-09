@@ -1,6 +1,3 @@
-Below is a README file template for your Python Telegram bot script. This README will include information about what the bot does, how to set it up, and how to use it.
-
----
 
 # Cognigenius Bot
 
@@ -12,7 +9,6 @@ Cognigenius Bot is a Telegram bot developed to assist users in generating mock t
 3. [Usage](#usage)
 4. [Commands](#commands)
 5. [Dependencies](#dependencies)
-6. [License](#license)
 
 ## Features<a name="features"></a>
 - Extracts text from PDF files.
@@ -68,9 +64,5 @@ The following commands are available:
 - `io`: Core Python module for handling I/O operations.
 - `logging`: Python module for logging.
 
-## License<a name="license"></a>
-This project is licensed under the [MIT License](LICENSE).
 
----
 
-Feel free to customize this README file according to your specific requirements and preferences.
