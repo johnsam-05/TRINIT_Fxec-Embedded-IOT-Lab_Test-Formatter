@@ -9,6 +9,7 @@ Cognigenius Bot is a Telegram bot developed to assist users in generating mock t
 3. [Usage](#usage)
 4. [Commands](#commands)
 5. [Dependencies](#dependencies)
+6. [Demo](#demo)
 
 ## Features<a name="features"></a>
 - Extracts text from PDF files.
@@ -64,5 +65,5 @@ The following commands are available:
 - `io`: Core Python module for handling I/O operations.
 - `logging`: Python module for logging.
 
-
-
+## Demo Video<a name="demo"></a>
+[Video Recording Of Our Project](https://drive.google.com/file/d/1enX4p9vmQPf_5Q6qjGPE53bn_WHBs3rk/view?usp=sharing)
